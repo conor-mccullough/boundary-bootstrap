@@ -8,14 +8,16 @@ controller {
   # supply the url, or "env://" to name an environment variable
   # that contains the URL.
   database {
-      url = "postgresql://boundary:password@10.100.3.11:5432/boundary"
+      url = "postgresql://boundary:password@127.0.0.1:5432/boundary"
   }
+  public_cluster_addr = "boundary.domain"
+  license = "/opt/boundary/license.hclic"
 }
 listener "tcp" {
   address = "0.0.0.0"
   purpose = "api"
-  tls_cert_file = "/vagrant/certs/server-1.crt"
-  tls_key_file  = "/vagrant/certs/server-1.key"
+  tls_cert_file = "/opt/boundary/certs/server-1.crt"
+  tls_key_file  = "/opt/boundary/certs/server-1.key"
  
   # Uncomment to enable CORS for the Admin UI. Be sure to set the allowed origin(s)
   # to appropriate values.
@@ -25,16 +27,17 @@ listener "tcp" {
 # Data-plane listener configuration block (used for worker coordination)
 listener "tcp" {
   # Should be the IP of the NIC that the worker will connect on
-  address = "${IP_ADDRESS}"
+  address = "0.0.0.0"
+#  address = "${IP_ADDRESS}"
   purpose = "cluster"
 }
 listener "tcp" {
   # Should be the address of the NIC where your external systems'
   # (eg: Load-Balancer) will connect on.
-  address = "${IP_ADDRESS}"
+  address = "0.0.0.0"
   purpose = "ops"
-  tls_cert_file = "/vagrant/certs/server-1.crt"
-  tls_key_file  = "/vagrant/certs/server-1.key"
+  tls_cert_file = "/opt/boundary/certs/server-1.crt"
+  tls_key_file  = "/opt/boundary/certs/server-1.key"
 }
 kms "awskms" {
   purpose    = "root"

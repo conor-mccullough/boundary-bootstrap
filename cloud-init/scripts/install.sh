@@ -1,9 +1,15 @@
 #!/bin/bash
-# Installs the boundary as a service for systemd on linux
-# Usage: ./install.sh <worker|controller>
+
+# Remember - MY_IP=$(curl ifconfig.me)
+
+#MY_IP=$(curl ifconfig.me)
+#export VAULT_ADDR='http://127.0.0.1:8200'
+#echo 'export VAULT_ADDR=http://127.0.0.1:8200' >> /home/ubuntu/.bashrc
+#echo "MY_IP=$(curl ifconfig.me)" >> /home/ubuntu/.bashrc
+#source /home/ubuntu/.bashrc
 
 
-sudo cp boundary*.hcl /opt/boundary/
+sudo cp -r /home/ubuntu/*.hc* /opt/boundary/
 
 sudo chown -R boundary:boundary /opt/boundary
 
