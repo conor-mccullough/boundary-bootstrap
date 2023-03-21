@@ -2,10 +2,10 @@
 # Installs the boundary as a service for systemd on linux
 # Usage: ./install.sh <worker|controller>
 
-TYPE=$1
-NAME=boundary
 
+sudo cp boundary*.hcl /opt/boundary/
 
+sudo chown -R boundary:boundary /opt/boundary
 
 # Make sure to initialize the DB before starting the service. This will result in
 # a database already initialized warning if another controller or worker has done this
