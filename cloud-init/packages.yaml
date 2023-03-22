@@ -44,7 +44,11 @@ runcmd:
 write_files:
 - path: /home/ubuntu/license.hclic
   content: |
+<<<<<<< HEAD
     <license>
+=======
+    <CHANGEME>
+>>>>>>> 4c3cf14 (getting there pt2)
   owner: 'ubuntu:ubuntu'
   permissions: '0400'
   defer: true
@@ -60,8 +64,8 @@ write_files:
     Group=boundary
     PIDFile=/var/run/boundary/boundary-controller.pid
     ExecStart=/usr/local/bin/boundary server -config=/opt/boundary/boundary-controller.hcl
-    StandardOutput=file:/var/log/boundary/boundary-controller.log
-    StandardError=file:/var/log/boundary/boundary-controller.log
+    StandardOutput=file:/opt/boundary/boundary-controller.log
+    StandardError=file:/opt/boundary/boundary-controller.log
     ExecReload=/bin/kill -HUP $MAINPID
     KillMode=process
     KillSignal=SIGINT
@@ -95,8 +99,8 @@ write_files:
     Group=boundary
     PIDFile=/var/run/boundary/boundary-worker.pid
     ExecStart=/usr/local/bin/boundary server -config=/opt/boundary/boundary-worker.hcl -log-level=trace
-    StandardOutput=file:/opt/boundary/boundary/boundary-worker.log
-    StandardError=file:/opt/boundary/boundary/boundary-worker.log
+    StandardOutput=file:/opt/boundary/boundary-worker.log
+    StandardError=file:/opt/boundary/boundary-worker.log
     ExecReload=/bin/kill -HUP $MAINPID
     KillMode=process
     KillSignal=SIGINT
