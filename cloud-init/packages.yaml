@@ -44,11 +44,7 @@ runcmd:
 write_files:
 - path: /home/ubuntu/license.hclic
   content: |
-<<<<<<< HEAD
-    <license>
-=======
     <CHANGEME>
->>>>>>> 4c3cf14 (getting there pt2)
   owner: 'ubuntu:ubuntu'
   permissions: '0400'
   defer: true
