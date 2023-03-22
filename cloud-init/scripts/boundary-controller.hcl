@@ -10,15 +10,15 @@ controller {
   database {
       url = "postgresql://boundary:password@127.0.0.1:5432/boundary"
   }
-  public_cluster_addr = "boundary.domain"
+  public_cluster_addr = "<CHANGEME>"
   license = "/opt/boundary/license.hclic"
 }
 listener "tcp" {
   address = "0.0.0.0"
   purpose = "api"
-  tls_cert_file = "/opt/boundary/certs/server-1.crt"
-  tls_key_file  = "/opt/boundary/certs/server-1.key"
- 
+  tls_cert_file = "/opt/boundary/certs/boundarycert.crt"
+  tls_key_file  = "/opt/boundary/certs/boundarycert.key"
+
   # Uncomment to enable CORS for the Admin UI. Be sure to set the allowed origin(s)
   # to appropriate values.
   #cors_enabled = true
@@ -36,34 +36,26 @@ listener "tcp" {
   # (eg: Load-Balancer) will connect on.
   address = "0.0.0.0"
   purpose = "ops"
-  tls_cert_file = "/opt/boundary/certs/server-1.crt"
-  tls_key_file  = "/opt/boundary/certs/server-1.key"
+  tls_cert_file = "/opt/boundary/certs/boundarycert.crt"
+  tls_key_file  = "/opt/boundary/certs/boundarycert.key"
 }
-kms "awskms" {
-  purpose    = "root"
-  region     = "$AWS_REGION"
-  access_key = "$AWS_KEY_ID"
-  secret_key = "$AWS_SECRET"
-  kms_key_id = "$KMS_KEY_ID"
+kms "aead" {
+    purpose   = "root"
+    aead_type = "aes-gcm"
+    key       = "sP1fnF5Xz85RrXyELHFeZg9Ad2qt4Z4bgNHVGtD6ung="
+    key_id    = "global_root"
 }
-# Worker authorization KMS
-# Use a production KMS such as AWS KMS for production installs
-# This key is the same key used in the worker configuration
-kms "awskms" {
-  purpose = "worker-auth"
-  region     = "$AWS_REGION"
-  access_key = "$AWS_KEY_ID"
-  secret_key = "$AWS_SECRET"
-  kms_key_id = "$KMS_KEY_ID"
+kms "aead" {
+    purpose   = "worker-auth"
+    aead_type = "aes-gcm"
+    key       = "8fZBjCUfN0TzjEGLQldGY4+iE9AkOvCfjh7+p0GtRBQ="
+    key_id    = "global_worker-auth"
 }
-# Recovery KMS block: configures the recovery key for Boundary
-# Use a production KMS such as AWS KMS for production installs
-kms "awskms" {
-  purpose = "recovery"
-  region     = "$AWS_REGION"
-  access_key = "$AWS_KEY_ID"
-  secret_key = "$AWS_SECRET"
-  kms_key_id = "$KMS_KEY_ID"
+kms "aead" {
+    purpose   = "recovery"
+    aead_type = "aes-gcm"
+    key       = "8fZBjCUfN0TzjEGLQldGY4+iE9AkOvCfjh7+p0GtRBQ="
+    key_id    = "global_recovery"
 }
 events {
   observations_enabled = true

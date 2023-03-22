@@ -1,29 +1,28 @@
 #!/bin/bash
 
+
+# sudo journalctl -u boundary
+
 # Remember - MY_IP=$(curl ifconfig.me)
 
-#MY_IP=$(curl ifconfig.me)
-#export VAULT_ADDR='http://127.0.0.1:8200'
-#echo 'export VAULT_ADDR=http://127.0.0.1:8200' >> /home/ubuntu/.bashrc
-#echo "MY_IP=$(curl ifconfig.me)" >> /home/ubuntu/.bashrc
-#source /home/ubuntu/.bashrc
+kubectl apply -f postgres-config.yaml
+kubectl apply -f postgres-pvc-pv.yaml
+kubectl apply -f postgres-deployment.yaml
+kubectl apply -f postgres-service.yaml
 
 
-sudo cp -r /home/ubuntu/*.hc* /opt/boundary/
+sudo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out boundarycert.crt -keyout boundarycert.key -subj '/C=AU/ST=Melbourne/L=Melbourne/O=Hashicorp/OU=Vault Support Engineering/CN=localhost' -addext 'subjectAltName = DNS:$(hostname)'
 
+sudo mkdir /opt/boundary/certs
+sudo chown boundary:boundary /usr/local/bin/boundary
+sudo cp /home/ubuntu/license.hclic /opt/boundary/ && sudo cp boundary*hcl /opt/boundary
+sudo cp boundarycert.* /opt/boundary/certs
 sudo chown -R boundary:boundary /opt/boundary
 
-# Make sure to initialize the DB before starting the service. This will result in
-# a database already initialized warning if another controller or worker has done this
-# already, making it a lazy, best effort initialization
-#if [ "${TYPE}" = "controller" ]; then
-#  sudo /usr/local/bin/boundary database init -config /etc/${NAME}-${TYPE}.hcl || true
-#fi
-
-#sudo chmod 664 /etc/systemd/system/${NAME}-${TYPE}.service
 sudo systemctl daemon-reload
 sudo systemctl enable boundary.service
 sudo systemctl start boundary.service
 sudo systemctl enable boundary-worker.service
-sudo systemctl start boundary]-worker.service
+sudo systemctl start boundary-worker.service
 
+echo "Remember to export BOUNDARY_ADDR=https://127.0.0.1:9200, etc"
