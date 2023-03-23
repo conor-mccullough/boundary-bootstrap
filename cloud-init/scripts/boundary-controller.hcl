@@ -8,13 +8,13 @@ controller {
   # supply the url, or "env://" to name an environment variable
   # that contains the URL.
   database {
-      url = "postgresql://boundary:password@127.0.0.1:5432/boundary"
+      url = "postgresql://boundary:password@10.43.75.28:5432/boundary"
   }
-  public_cluster_addr = "<CHANGEME>"
-  license = "/opt/boundary/license.hclic"
+  public_cluster_addr = "192.168.64.76"
+  license = "file:///opt/boundary/license.hclic"
 }
 listener "tcp" {
-  address = "0.0.0.0"
+  address = "0.0.0.0:9200"
   purpose = "api"
   tls_cert_file = "/opt/boundary/certs/boundarycert.crt"
   tls_key_file  = "/opt/boundary/certs/boundarycert.key"
@@ -27,18 +27,18 @@ listener "tcp" {
 # Data-plane listener configuration block (used for worker coordination)
 listener "tcp" {
   # Should be the IP of the NIC that the worker will connect on
-  address = "0.0.0.0"
+  address = "192.168.64.76:9201"
 #  address = "${IP_ADDRESS}"
   purpose = "cluster"
 }
-listener "tcp" {
+#listener "tcp" {
   # Should be the address of the NIC where your external systems'
   # (eg: Load-Balancer) will connect on.
-  address = "0.0.0.0"
-  purpose = "ops"
-  tls_cert_file = "/opt/boundary/certs/boundarycert.crt"
-  tls_key_file  = "/opt/boundary/certs/boundarycert.key"
-}
+#  address = "192.168.64.76:9200"
+#  purpose = "ops"
+#  tls_cert_file = "/opt/boundary/certs/boundarycert.crt"
+#  tls_key_file  = "/opt/boundary/certs/boundarycert.key"
+#}
 kms "aead" {
     purpose   = "root"
     aead_type = "aes-gcm"
