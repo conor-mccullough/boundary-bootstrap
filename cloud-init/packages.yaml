@@ -14,6 +14,7 @@ runcmd:
   - mkdir -p /home/ubuntu/.kube/
   - echo "export KUBECONFIG=/home/ubuntu/.kube/config" | tee -a /home/ubuntu/.bashrc
   - echo "alias k=\'kubectl\'" | tee -a /home/ubuntu/.bashrc
+  - k3s completion bash > /etc/bash_completion.d/k3s
   - cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
   - chown -R ubuntu:ubuntu /home/ubuntu
 #####  - chown ubuntu:ubuntu /home/ubuntu/.kube/config
@@ -23,6 +24,7 @@ runcmd:
   - wget https://releases.hashicorp.com/boundary-worker/0.12.1+hcp/boundary-worker_0.12.1+hcp_linux_arm64.zip
   - unzip boundary-worker_0.12.1+hcp_linux_arm64.zip
   - cp boundary-worker /usr/local/bin/boundary
+  - runuser -l ubuntu -c "source /home/ubuntu/.bashrc"
 #  - bash /home/ubuntu/install.sh
 
 #  - sudo apt update && sudo apt install boundary-enterprise

@@ -20,6 +20,10 @@ Details of how the repo functions go here
 
 `multipass shell <nm name>`
 
+`git clone https://github.com/conor-mccullough/boundary-bootstrap.git`
+
+
+
 #### From the VM
 
 
