@@ -105,9 +105,6 @@ kms "aead" {
 
 EOF
 
-# Take off here from the k3s psql install script
-./postgres-install.sh
-
 sudo mkdir -p /opt/boundary/certs
 sudo chown boundary:boundary /usr/local/bin/boundary
 sudo cp /home/ubuntu/license.hclic /opt/boundary/ 
@@ -118,7 +115,8 @@ echo " -----------------------------------------------------------------"
 echo "|                Start testing database_init.sh now               |"
 echo " -----------------------------------------------------------------"
 
-
+# Take off here from the k3s psql install script
+./postgres-install.sh
 ./database-init.sh
 
 sudo systemctl daemon-reload
