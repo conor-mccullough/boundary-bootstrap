@@ -20,12 +20,12 @@ Details of how the repo functions go here
 
 `multipass shell <nm name>`
 
-`git clone https://github.com/conor-mccullough/boundary-bootstrap.git`
-
-
-
 #### From the VM
 
+`./bootstrap.sh`
+
+`cd boundary-bootstrap/cloud-init/scripts && ./install.sh`
+(still need to test this, haven't had the time to dig into this repo for a while)
 
 ## Cleanup
 

@@ -24,7 +24,7 @@ runcmd:
   - wget https://releases.hashicorp.com/boundary-worker/0.12.1+hcp/boundary-worker_0.12.1+hcp_linux_arm64.zip
   - unzip boundary-worker_0.12.1+hcp_linux_arm64.zip
   - cp boundary-worker /usr/local/bin/boundary
-  - runuser -l ubuntu -c "source /home/ubuntu/.bashrc"
+  - runuser -l ubuntu -c 'echo "source /home/ubuntu/.bashrc" > /home/ubuntu/.bash_profile''
 #  - bash /home/ubuntu/install.sh
 
 #  - sudo apt update && sudo apt install boundary-enterprise
