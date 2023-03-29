@@ -24,14 +24,13 @@ Details of how the repo functions go here
 
 `./bootstrap.sh`
 
-`cd boundary-bootstrap/cloud-init/scripts && ./install.sh`
-(still need to test this, haven't had the time to dig into this repo for a while)
+`cd boundary-bootstrap/cloud-init/scripts && sudo ./install.sh`
 
 ## Cleanup
 
-Cleanup steps here
+`multipass delete <vm name> --purge`
 
-`multipass delete <vm name>`
+Or to purge all deleted VM's:
 
 `multipass purge`
 
