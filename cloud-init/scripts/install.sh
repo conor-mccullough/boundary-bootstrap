@@ -1,11 +1,32 @@
 #!/bin/bash
-
+set -x
 # Remember - IP_ADDR=$(curl ifconfig.me)
 IP_ADDR=$(ip a | grep enp0s1 | awk -v RS='([0-9]+\\.){3}[0-9]+' 'RT{print RT}' | head -n 1)
 HOSTNAME=$(hostname)
 
-sudo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out boundarycert.crt -keyout boundarycert.key -subj '/C=AU/ST=Melbourne/L=Melbourne/O=Hashicorp/OU=Vault Support Engineering/CN=localhost' -addext "subjectAltName = DNS:${HOSTNAME}"
+echo "Launching Postgres container.."
+# Install postgres containers, wait until they are in a running state, then pull their info for Boundary DB connection
+./postgres-install.sh
+until [[ $NEW_POD_STATE == "Running" ]]
+do
+  NEW_POD_STATE=$(kubectl get pod $MY_POD | awk 'FNR==2{printf $3}')
+  echo "Not running: $NEW_POD_STATE"
+  sleep 1
+done
 
+MY_POD=$(kubectl get pods | grep -m1 postgres |  awk '{printf $1}')
+POD_IP=$(kubectl get pod $MY_POD -o jsonpath='{.status.podIP}')
+
+echo "----------------------"
+echo "$MY_POD now in $NEW_POD_STATE with IP $POD_IP - We are ready to continue with Boundary configuration.."
+echo "----------------------"
+sleep 1
+
+read -p "Enter Boundary license key: " BOUNDARY_LICENSE
+echo $BOUNDARY_LICENSE > /home/ubuntu/license.hclic
+
+sudo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out boundarycert.crt -keyout boundarycert.key -subj '/C=AU/ST=Melbourne/L=Melbourne/O=Hashicorp/OU=Vault Support Engineering/CN=localhost' -addext "subjectAltName = DNS:${HOSTNAME}"
+sudo mkdir /opt/boundary
 sudo tee /opt/boundary/boundary-controller.hcl << EOF
 
 controller {
@@ -20,7 +41,7 @@ controller {
   # supply the url, or "env://" to name an environment variable
   # that contains the URL.
   database {
-      url = "postgresql://boundary:password@10.43.75.28:5432/boundary"
+      url = "postgresql://boundary:password@${POD_IP}:5432/boundary"
   }
   public_cluster_addr = "${IP_ADDR}"
   license = "file:///opt/boundary/license.hclic"
@@ -112,12 +133,16 @@ sudo cp boundarycert.* /opt/boundary/certs
 sudo chown -R boundary:boundary /opt/boundary
 
 echo " -----------------------------------------------------------------"
-echo "|                Start testing database_init.sh now               |"
+echo "|                Start testing database_init.sh now              |"
 echo " -----------------------------------------------------------------"
 
-# Take off here from the k3s psql install script
-./postgres-install.sh
+# Initialize the database
+# psql -h 10.42.0.84 -U boundary -W + password defined in config file to log in
+# `\l` to verify databases
 ./database-init.sh
+
+echo "Database initialized! To connect: "
+echo "psql -h $POD_IP -u boundary -w"
 
 sudo systemctl daemon-reload
 sudo systemctl enable boundary.service

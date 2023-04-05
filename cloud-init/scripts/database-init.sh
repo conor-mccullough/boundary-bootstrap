@@ -1,3 +1,5 @@
+#!/bin/bash
+set -x
 boundary database init \
    -skip-auth-method-creation \
    -skip-host-resources-creation \

@@ -22,8 +22,13 @@ Details of how the repo functions go here
 
 #### From the VM
 
+Pull the repo and bootstrap files:
 `./bootstrap.sh`
 
+Write the license value into the license file:
+`echo '<boundary end license here>' > /home/ubuntu/license.hclic`
+
+Run the install scripts:
 `cd boundary-bootstrap/cloud-init/scripts && sudo ./install.sh`
 
 ## Cleanup

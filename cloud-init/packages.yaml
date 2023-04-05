@@ -37,7 +37,7 @@ write_files:
   content: |
     <CHANGEME>
   owner: 'ubuntu:ubuntu'
-  permissions: '0400'
+  permissions: '0666'
   defer: true
 - path: /etc/systemd/system/boundary.service
   content: |
