@@ -25,7 +25,7 @@ sleep 1
 read -p "Enter Boundary license key: " BOUNDARY_LICENSE
 echo $BOUNDARY_LICENSE > /home/ubuntu/license.hclic
 
-sudo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out boundarycert.crt -keyout boundarycert.key -subj '/C=AU/ST=Melbourne/L=Melbourne/O=Hashicorp/OU=Vault Support Engineering/CN=localhost' -addext "subjectAltName = DNS:${HOSTNAME}"
+sudo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out boundarycert.crt -keyout boundarycert.key -subj "/C=AU/ST=Melbourne/L=Melbourne/O=Hashicorp/OU=Vault Support Engineering/CN=${IP_ADDR}" -addext "subjectAltName = DNS:${HOSTNAME}, DNS:localhost, DNS:${IP_ADDR}, DNS:${POD_IP}, DNS:127.0.0.1"
 sudo mkdir /opt/boundary
 sudo tee /opt/boundary/boundary-controller.hcl << EOF
 
@@ -126,11 +126,14 @@ kms "aead" {
 
 EOF
 
+pass init conor
 sudo mkdir -p /opt/boundary/certs
 sudo chown boundary:boundary /usr/local/bin/boundary
 sudo cp /home/ubuntu/license.hclic /opt/boundary/ 
 sudo cp boundarycert.* /opt/boundary/certs
+sudo cp boundarycert.crt /usr/local/share/ca-certificates/
 sudo chown -R boundary:boundary /opt/boundary
+sudo update-ca-certificates
 
 echo " -----------------------------------------------------------------"
 echo "|                Start testing database_init.sh now              |"
@@ -150,4 +153,5 @@ sudo systemctl start boundary.service
 sudo systemctl enable boundary-worker.service
 sudo systemctl start boundary-worker.service
 
-echo "Remember to export BOUNDARY_ADDR=https://127.0.0.1:9200, etc"
+echo "Remember to export BOUNDARY_ADDR=https://localhost:9200, etc"
+echo "For keyring errors, generate a key with <gpg --full-generate-key>, followed by <pass init USER-ID-FROM-GPG>

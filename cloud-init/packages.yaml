@@ -4,6 +4,7 @@ packages:
   - docker
   - docker-compose
   - gpg
+  - pass
   - postgresql
   - tree
   - strace
