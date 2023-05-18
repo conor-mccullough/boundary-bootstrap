@@ -145,7 +145,7 @@ echo " -----------------------------------------------------------------"
 ./database-init.sh
 
 echo "Database initialized! To connect: "
-echo "psql -h $POD_IP -u boundary -w"
+echo "psql -h $POD_IP -U boundary -w"
 
 sudo systemctl daemon-reload
 sudo systemctl enable boundary.service
@@ -154,4 +154,12 @@ sudo systemctl enable boundary-worker.service
 sudo systemctl start boundary-worker.service
 
 echo "Remember to export BOUNDARY_ADDR=https://localhost:9200, etc"
-echo "For keyring errors, generate a key with <gpg --full-generate-key>, followed by <pass init USER-ID-FROM-GPG>
+echo "For keyring errors, generate a key with <gpg --full-generate-key>, followed by <pass init USER-ID-FROM-GPG>"
+
+export PASSWORD=$(cat database_login_role_info.txt  | grep -A 7 "Initial auth information")
+
+echo "export BOUNDARY_ADDR=https://localhost:9200"
+
+echo "boundary login & follow the prompts rather than logging in with the entire string"
+
+printf "###########################################\nlogin info: \n\n$PASSWORD\n###########################################\n"

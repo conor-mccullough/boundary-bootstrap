@@ -22,14 +22,17 @@ Details of how the repo functions go here
 
 #### From the VM
 
-Pull the repo and bootstrap files:
+Run bootstrap.sh to clone the repository:
 `./bootstrap.sh`
 
-Write the license value into the license file:
-`echo '<boundary end license here>' > /home/ubuntu/license.hclic`
-
-Run the install scripts:
+Run the install scripts (as sudo):
 `cd boundary-bootstrap/cloud-init/scripts && sudo ./install.sh`
+
+#### Using Boundary
+
+The URL is `https://<VM IP>:9200`
+
+Username and password are printed after the install script runs and can be found in `database_login_role_info.txt` under `Initial auth information`.
 
 ## Cleanup
 
