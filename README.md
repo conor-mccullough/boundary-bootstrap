@@ -2,8 +2,9 @@ All hidden yaml files to be escorted out of the building by security at the appr
 
 ## Architecture
 
-Details of how the repo functions go here
-
+- VM:
+    - Boundary Controller
+    - Boundary Worker
 ## Prerequisites
 
 - [Multipass](https://multipass.run/)
@@ -33,6 +34,15 @@ Run the install scripts (as sudo):
 The URL is `https://<VM IP>:9200`
 
 Username and password are printed after the install script runs and can be found in `database_login_role_info.txt` under `Initial auth information`.
+
+#### SSH from VM to VM
+
+1. Find your `id_rsa` keyfile for Multipass (on your mac), and copy it to the place you want to SSH from:
+
+`sudo cp /var/root/Library/Application\ Support/multipassd/ssh-keys/id_rsa multipass-key`
+
+`ssh -i ~/multipass-key ubuntu@<target VM IP>`
+
 
 ## Cleanup
 
