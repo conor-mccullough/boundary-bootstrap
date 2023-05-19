@@ -12,9 +12,9 @@ Running a dev environment with `boundary dev` is ephemeral, has a host of limita
 
 ## Multipass & K3s??
 
-- Multipass offers an easy and intuitive command-line interface to an underlying hypervisor, making Virtual Machine orchestration far more simple with less oversight and configuration required. 
+Multipass offers an easy and intuitive command-line interface to an underlying hypervisor, making Virtual Machine orchestration far more simple with less oversight and configuration required. 
 
-- K3s provides that VM with a lightweight distribution of Kubernetes, making it less stressful for the VM to run and dealing with much of the configuration you'd normally get bogged down in when setting up a reproduction/demo/dev environment with k8s.
+K3s provides that VM with a lightweight distribution of Kubernetes, making it less stressful for the VM to run and dealing with much of the configuration you'd normally get bogged down in when setting up a reproduction/demo/dev environment with k8s.
 
 ## Prerequisites
 
