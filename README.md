@@ -1,4 +1,29 @@
-All hidden yaml files to be escorted out of the building by security at the appropriate time
+# Boundary on Multipass
+
+## What is Boundary?
+
+[What is Boundary?](https://developer.hashicorp.com/boundary/docs/overview/what-is-boundary)
+
+Boundary is an open source session broker. It provides secure, identity and role-based access for infrastructure and services. 
+
+This repo is a quickstart to getting up and running with Boundary using Multipass to run its host VM, and K3s to run a lightweight Postgres backend.
+
+Running a dev environment with `boundary dev` is ephemeral, has a host of limitations, and not suitable for all development-tier use cases. This guide more closely mirrors a basic production-grade deployment.
+
+## Multipass & K3s??
+
+- Multipass offers an easy and intuitive command-line interface to an underlying hypervisor, making Virtual Machine orchestration far more simple with less oversight and configuration required. 
+
+- K3s provides that VM with a lightweight distribution of Kubernetes, making it less stressful for the VM to run and dealing with much of the configuration you'd normally get bogged down in when setting up a reproduction/demo/dev environment with k8s.
+
+## Prerequisites
+
+- [Multipass](https://multipass.run/)
+
+- [Git, or any other Git client](https://git-scm.com/)
+
+- It also doesn't hurt to have [kubectl](https://kubernetes.io/docs/reference/kubectl/) installed on your host machine, though the Linux VM bootstraps with it installed and aliased to `k` so it's not really necessary.
+
 
 ## Architecture
 
@@ -16,14 +41,6 @@ If we were to `tree` this it would look something like this:
             - K3s
                 - Postgres DB
 
-
-## Prerequisites
-
-- [Multipass](https://multipass.run/)
-
-- [Git, or any other Git client](https://git-scm.com/)
-
-- It also doesn't hurt to have [kubectl](https://kubernetes.io/docs/reference/kubectl/) installed on your host machine, though the Linux VM bootstraps with it installed and aliased to `k` so it's not really necessary.
 
 ## Getting started
 
