@@ -153,13 +153,13 @@ sudo systemctl start boundary.service
 sudo systemctl enable boundary-worker.service
 sudo systemctl start boundary-worker.service
 
-echo "Remember to export BOUNDARY_ADDR=https://localhost:9200, etc"
-echo "For keyring errors, generate a key with <gpg --full-generate-key>, followed by <pass init USER-ID-FROM-GPG>"
-
-export PASSWORD=$(cat database_login_role_info.txt  | grep -A 7 "Initial auth information")
+export PASSWORD=$(cat database_login_role_info.json | jq -r | grep -A 6 "auth_method")
 
 echo "export BOUNDARY_ADDR=https://localhost:9200"
 
 echo "boundary login & follow the prompts rather than logging in with the entire string"
 
-printf "###########################################\nlogin info: \n\n$PASSWORD\n###########################################\n"
+printf "#######################################################################\nlogin info: \n\n$PASSWORD\n#######################################################################\n\n"
+
+echo "Remember to export BOUNDARY_ADDR=https://localhost:9200, etc"
+echo "For keyring errors, generate a key with <gpg --full-generate-key>, followed by <pass init USER-ID-FROM-GPG>"
