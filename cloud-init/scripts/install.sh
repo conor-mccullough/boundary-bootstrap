@@ -155,7 +155,7 @@ sudo systemctl start boundary-worker.service
 
 export PASSWORD=$(cat database_login_role_info.json | jq -r | grep -A 6 "auth_method")
 
-echo "export BOUNDARY_ADDR=https://localhost:9200"
+echo "export BOUNDARY_ADDR=https://localhost:9200" >> /home/ubuntu/.bashrc
 
 echo "boundary login & follow the prompts rather than logging in with the entire string"
 

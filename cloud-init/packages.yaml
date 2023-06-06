@@ -25,13 +25,6 @@ runcmd:
   - wget https://releases.hashicorp.com/boundary-worker/0.12.1+hcp/boundary-worker_0.12.1+hcp_linux_arm64.zip
   - unzip boundary-worker_0.12.1+hcp_linux_arm64.zip
   - cp boundary-worker /usr/local/bin/boundary
-  - source /etc/profile
-
-# See https://git.launchpad.net/cloud-init/tree/config/cloud.cfg.tmpl for precedence (init > config)
-
-# Just do it with the ubuntu user for now. Once it's containerized it'll be better.
-# pull the github repo with the bootstrap script and run it after you've brought the files in.
-# Eventually remove the write_files all together except for if they're needed.. Remember cloud-init is for provisioning, not config management.
 
 write_files:
 - path: /home/ubuntu/license.hclic
@@ -98,5 +91,5 @@ write_files:
   content: |
     git clone https://github.com/conor-mccullough/boundary-bootstrap.git
   owner: 'ubuntu:ubuntu'
-  permissions: '0744'
-
+  permissions: '0766'
+  defer: true
