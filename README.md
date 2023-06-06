@@ -4,11 +4,11 @@
 
 [What is Boundary?](https://developer.hashicorp.com/boundary/docs/overview/what-is-boundary)
 
-Boundary is an open source session broker. It provides secure, identity and role-based access for infrastructure and services. 
+Boundary is a [Zero-Trust](https://en.wikipedia.org/wiki/Zero_trust_security_model), identity-based session broker. It provides secure, identity and role-based access for infrastructure and services. 
 
 This repo is a quickstart to getting up and running with Boundary using Multipass to run its host VM, and K3s to run a lightweight Postgres backend.
 
-Running a dev environment with `boundary dev` is ephemeral, has a host of limitations, and not suitable for all development-tier use cases. This guide more closely mirrors a basic production-grade deployment.
+Running a dev environment with `boundary dev` is ephemeral, has a host of limitations, and not suitable for all development-tier use cases. This guide more closely mirrors a basic production-grade, non-HA deployment.
 
 ## Multipass & K3s??
 
